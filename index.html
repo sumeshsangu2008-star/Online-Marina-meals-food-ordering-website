@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Marina Meals - Online Food Ordering</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Figtree:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <header class="top">
+    <div>
+      <h1>Marina Meals</h1>
+      <p class="tagline">Authentic South Indian Dishes Delivered Hot & Fresh</p>
+    </div>
+    <button id="cartToggle" class="cart-btn" aria-controls="cartPanel" aria-expanded="false">
+      🛒 View Cart <span id="cartCount">0</span>
+    </button>
+  </header>
+ 
+  <!-- Main Grid Layout -->
+  <main class="layout">
+    <!-- Menu Section -->
+    <section class="menu" aria-label="Menu">
+      <div class="controls">
+        <label class="sr" for="search">Search food item by name</label>
+        <input id="search" type="search" placeholder="🔍 Search food items by name (e.g., Dosa, Biryani, Vada, Coffee)..." autocomplete="off">
+        <div id="filters" class="filters" role="group" aria-label="Filter food items by category"></div>
+      </div>
+      <p id="resultInfo" class="info" aria-live="polite"></p>
+      <!-- Dishes rendered dynamically here -->
+      <div id="menuGrid" class="grid"></div>
+    </section>
+ 
+    <!-- Shopping Cart Panel -->
+    <aside id="cartPanel" class="cart" aria-label="Shopping Cart">
+      <h2>Shopping Cart</h2>
+      <div id="cartItems"></div>
+      
+      <dl id="totals" class="totals" hidden>
+        <div><dt>Items Subtotal</dt><dd id="tSub">₹0</dd></div>
+        <div><dt>GST Tax (5%)</dt><dd id="tGst">₹0</dd></div>
+        <div><dt>Delivery Charges</dt><dd id="tDel">₹0</dd></div>
+        <div class="grand"><dt>Overall Total</dt><dd id="tTotal">₹0</dd></div>
+      </dl>
+      
+      <button id="reviewBtn" class="primary" disabled>Review Order</button>
+      <button id="clearBtn" class="link" hidden>Clear Shopping Cart</button>
+    </aside>
+  </main>
+ 
+  <!-- Order Review & Details Dialog Modal -->
+  <dialog id="checkout" aria-labelledby="checkoutTitle">
+    <div id="checkoutView">
+      <h2 id="checkoutTitle">Order Summary & Checkout</h2>
+      <p style="color: var(--muted); margin-bottom: 0.8rem; font-size: 0.95rem;">Review your items and enter delivery details to submit your order.</p>
+      
+      <!-- Order Summary -->
+      <ul id="summaryList" class="summary"></ul>
+      <p class="summary-total">Overall Total: <strong id="summaryTotal">₹0</strong></p>
+ 
+      <!-- Customer Information Form -->
+      <form id="orderForm" novalidate>
+        <div class="field">
+          <label for="name">Customer Full Name *</label>
+          <input id="name" name="name" type="text" placeholder="e.g. S. Sumesh" autocomplete="name">
+          <small class="err" id="err-name"></small>
+        </div>
+        
+        <div class="field">
+          <label for="phone">10-Digit Mobile Number *</label>
+          <input id="phone" name="phone" type="tel" inputmode="numeric" maxlength="10" placeholder="e.g. 9876543210" autocomplete="tel">
+          <small class="err" id="err-phone"></small>
+        </div>
+        
+        <div class="field">
+          <label for="email">Email Address *</label>
+          <input id="email" name="email" type="email" placeholder="e.g. sumesh@example.com" autocomplete="email">
+          <small class="err" id="err-email"></small>
+        </div>
+        
+        <div class="field">
+          <label for="address">Delivery Street Address *</label>
+          <textarea id="address" name="address" rows="2" placeholder="House / Flat No, Street, Landmark..." autocomplete="street-address"></textarea>
+          <small class="err" id="err-address"></small>
+        </div>
+        
+        <div class="row">
+          <div class="field">
+            <label for="pincode">Area Pincode (6 digits) *</label>
+            <input id="pincode" name="pincode" type="text" inputmode="numeric" maxlength="6" placeholder="e.g. 600062" autocomplete="postal-code">
+            <small class="err" id="err-pincode"></small>
+          </div>
+          <div class="field">
+            <label for="payment">Payment Option *</label>
+            <select id="payment" name="payment">
+              <option value="">Select Payment</option>
+              <option value="Cash on delivery">Cash on Delivery (COD)</option>
+              <option value="UPI">UPI (GPay / PhonePe / Paytm)</option>
+              <option value="Card">Debit / Credit Card</option>
+            </select>
+            <small class="err" id="err-payment"></small>
+          </div>
+        </div>
+        
+        <div class="actions">
+          <button type="button" id="backBtn" class="link">Modify Cart</button>
+          <button type="submit" class="primary">Submit Order</button>
+        </div>
+      </form>
+    </div>
+ 
+    <!-- Order Submitted / Confirmation Message -->
+    <div id="successView" hidden>
+      <div style="font-size: 3.5rem; text-align: center; margin-bottom: 0.5rem;">🎉</div>
+      <h2 style="text-align: center;">Order Submitted Successfully!</h2>
+      <p id="successMsg" style="text-align: center; margin: 1rem 0 1.5rem; color: var(--muted); line-height: 1.6;"></p>
+      <div style="text-align: center;">
+        <button id="doneBtn" class="primary">Order More Dishes</button>
+      </div>
+    </div>
+  </dialog>
+ 
+  <!-- Operation Notification Toast -->
+  <div id="toast" role="status" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+</body>
+  </html>
+  
